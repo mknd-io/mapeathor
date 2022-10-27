@@ -1,10 +1,10 @@
 import pandas
 import sys
 import os
-import json
+import json as jsonw
 import re
 import copy
-
+import json
 from . import global_config
 from . import mapping_writer
 from . import utils
@@ -202,20 +202,24 @@ def reFormatPredicateObject(data):
             element['Object'] = str(element['Object'])[1:-1]
             result['Function'].append(element)
         # Populate Constant key
-        elif("{" not in str(element['Object']) and "}" not in str(element['Object'])):
+        elif(str(element['Object']) not in nullValues and "{" not in str(element['Object']) and "}" not in str(element['Object'])):
             element['ObjectType'] = 'constant'
             element['ObjTermMap'] = utils.replaceTermMap(element['ObjectType'])
             result['POM'].append(element)
         # Populate Template key
-        elif(bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
+        elif(str(element['Object']) not in nullValues and bool(re.search("{.+}.+", str(element['Object']))) or bool(re.search(".+{.+}", str(element['Object'])))):
             element['ObjectType'] = 'template'
             element['ObjTermMap'] = utils.replaceTermMap(element['ObjectType'])
             result['POM'].append(element)
         # Populate Reference key when none of the conditions above are fulfilled
-        else:
+        elif(str(element['Object']) not in nullValues):
             element['ObjectType'] = 'reference'
             element['ObjTermMap'] = utils.replaceTermMap(element['ObjectType'])
             result['POM'].append(element)
+        else:
+           element['ObjectType'] = 'reference'
+           result['Join'].append(element)
+            
     return result
 
 
@@ -278,7 +282,6 @@ def generateMapping(inputFile, outputFile=None):
         utils.cleanDir(global_config.resultDir)
     else:
         os.mkdir(global_config.resultDir)
-
     if outputFile is None:
         outputFile = global_config.resultDir + re.findall(r'\/?([\w\-\_\[\]\(\)]+)\.',inputFile)[0]  ## wider option \/?([^\.\/]+)\.
 
@@ -291,7 +294,8 @@ def generateMapping(inputFile, outputFile=None):
         #print("First JSON: ")
         #print(str(json).replace('\'', '\"'))
         json = organizeJson(json)
-        #print("Second JSON: ")
+        print("Second JSON: ")
+        print(jsonw.dumps(json, indent=4))
         #print(str(json).replace('\'', '\"'))
         # sys.exit()
     except KeyError:

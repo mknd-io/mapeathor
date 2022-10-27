@@ -180,7 +180,7 @@ def writeSubject(data, path):
         f.write('];\n')
     else:
         if not isnan:
-            f.write('subjects: ' + data['URI'] + '\n')
+            f.write('s: ' + data['URI'] + '\n')
 
         if 'Graph' in data:
             if data['Graph'] != '"nan"':

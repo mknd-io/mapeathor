@@ -31,7 +31,7 @@ def main():
         else:
             print("ERROR: The downloaded document is not a spreadsheet")
             sys.exit()
-
+    print("fuck it")
     # Wrong language or not supported
     if(args.language.lower() not in global_config.supportedLanguages):
         print("ERROR: The selected Language is not supported by the moment.")
