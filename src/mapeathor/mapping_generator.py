@@ -294,8 +294,8 @@ def generateMapping(inputFile, outputFile=None):
         #print("First JSON: ")
         #print(str(json).replace('\'', '\"'))
         json = organizeJson(json)
-        print("Second JSON: ")
-        print(jsonw.dumps(json, indent=4))
+        #print("Second JSON: ")
+        #print(jsonw.dumps(json, indent=4))
         #print(str(json).replace('\'', '\"'))
         # sys.exit()
     except KeyError:
