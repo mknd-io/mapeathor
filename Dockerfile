@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 
 COPY . /mapeathor
-RUN cp /mapeathor/run.sh .
+RUN cp /mapeathor/exec .
 RUN cd /mapeathor && pip3 install -r requirements.txt
 
 CMD ["tail", "-f", "/dev/null"]
