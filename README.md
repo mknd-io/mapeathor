@@ -18,7 +18,7 @@
  <img src="https://raw.githubusercontent.com/oeg-upm/Mapeathor/master/imgs/workflow.png" alt="workflow" width="600"/>
 </p>
 
-##Installation
+## Installation
 
 `pip -r requirements.txt`
 
@@ -40,7 +40,8 @@ One of three options can be chosen: R2RML, RML or YARRRML.
 The easiest way of running Mapeathor is using the [web service](https://morph.oeg.fi.upm.es/demo/mapeathor) and the [Swagger](https://morph.oeg.fi.upm.es/tool/mapeathor/swagger/) instance. For CLI lovers, the service is available as a [PyPi package](https://pypi.org/project/mapeathor/) and Docker image. The instructions of the latest can be found in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
 
 Run with command line:
-$`python app.py -i excel-file-or-url-to-google-spreadsheet -o output-file-name -l yarrrml`
+
+`python app.py -i excel-file-or-url-to-google-spreadsheet -o output-file-name -l yarrrml`
 
 ## Publications
 Iglesias-Molina, A., Pozo-Gilo, L., Dona, D., Ruckhaus, E., Chaves-Fraga, D., & Corcho, O. (2020, January). *Mapeathor: Simplifying the Specification of Declarative Rules for Knowledge Graph Construction. In ISWC (Demos/Industry).* [Online version](http://ceur-ws.org/Vol-2721/paper488.pdf)
