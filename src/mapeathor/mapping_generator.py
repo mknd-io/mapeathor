@@ -132,7 +132,7 @@ def reFormatFunction(data_function, data):
             if("{" not in str(element['Value']) and "}" not in str(element['Value']) and '<' != str(element['Value'])[0]):
                 element['ValueType'] = 'rr:constant'
             elif(str(element['Value'])[:1] == '{' and str(element['Value'])[-1:] == '}'):
-                element['Value'] = str(element['Value'])[1:-1]
+                element['Value'] = str(element['Value'])
                 element['ValueType'] = 'rml:reference'
             elif(str(element['Value'])[:1] == '<' and str(element['Value'])[-1:] == '>'):
                 element['Value'] = '<#' + str(element['Value'])[1:]
@@ -294,8 +294,8 @@ def generateMapping(inputFile, outputFile=None):
         #print("First JSON: ")
         #print(str(json).replace('\'', '\"'))
         json = organizeJson(json)
-        #print("Second JSON: ")
-        #print(jsonw.dumps(json, indent=4))
+        print("Second JSON: ")
+        print(jsonw.dumps(json, indent=4))
         #print(str(json).replace('\'', '\"'))
         # sys.exit()
     except KeyError:

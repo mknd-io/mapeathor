@@ -21,11 +21,11 @@ def writeValues(data, path):
         writePredicateObjects(data['TriplesMap'][triplesmap]['Predicate_Object'], path)
 
     # Functions implemented only in RML
-    if global_config.templatesDir[-5:-1] == '/rml':
-        for function in data['Function']:
-            writeFunctionMap(function, path)
-            writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
-            writeFunctionSource(data['Function'][function]['Source'], path)
+    #if global_config.templatesDir[-5:-1] == '/rml':
+    for function in data['Function']:
+        writeFunctionMap(function, path)
+        writeFunctionPOM(data['Function'][function]['Predicate_Object'], path)
+        writeFunctionSource(data['Function'][function]['Source'], path)
 
 
 def writePrefix(data, path):
@@ -203,7 +203,7 @@ def writeFunctionMap(data, path):
     file_loader = FileSystemLoader(global_config.templatesDir)
     env = Environment(loader=file_loader)
     template = env.get_template('FunctionMap.tmpl')
-
+    print(data)
     fun_tm = {'FunctionID' : data}
     output = template.render(fun_tm=fun_tm)
     f = open(global_config.tmpDir + 'FunctionMap.txt', 'w')
@@ -283,8 +283,8 @@ def writeFinalFile(path_, idTMList, idFList):
     else:
         path = path_
 
-    if os.path.isfile(path):
-        os.remove(path)
+    #if os.path.isfile(path):
+    #    os.remove(path)
 
     recursiveWrite(0,data['unique'], path, '')
     for id_ in idTMList:

@@ -56,7 +56,22 @@
             }
           ],
           "after": " "
-        }
+        },
+	{
+          "before":"",
+          "file":"FunctionMap",
+          "tabs":3,
+          "childs":[
+             {
+               "before":"",
+               "file":"FunctionPOM",
+               "tabs":3,
+               "childs":[],
+               "after":""
+             }
+          ],
+          "after":""
+         }
         
       ],
       "after": ""
