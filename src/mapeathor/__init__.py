@@ -25,7 +25,10 @@ def main():
 
     # Google Spreadsheet file
     else:
-        temp = source.gdriveToXMLX(args.input_file)
+        temp = source.gdriveToXMLX(args.input_file, args.output_file)
+        if temp == '':
+            print("XLSX was not modified since last time")
+            sys.exit(1)
         if source.checkFile(temp):
             inputFile = temp
         else:
