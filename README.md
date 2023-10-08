@@ -20,7 +20,7 @@
 
 ## Installation
 
-`pip -r requirements.txt`
+`pip install -r requirements.txt`
 
 ## Example
 A more detailed explanation is provided in the [wiki](https://github.com/oeg-upm/Mapeathor/wiki).
