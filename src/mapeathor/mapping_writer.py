@@ -121,8 +121,8 @@ def writeSource(data, path):
     f = open(global_config.tmpDir + 'Source.txt', 'w')
     f.write(output + "\n")
     f.close()
-    writeResult(data['ID'], 'Source')
-
+    if 'ID' in data.keys():
+        writeResult(data['ID'], 'Source')
 
 def writeSubjectTemp(data, path):
     """

@@ -8,6 +8,7 @@ import json
 from . import global_config
 from . import mapping_writer
 from . import utils
+import traceback
 
 def generateJson(path):
     """
@@ -18,9 +19,12 @@ def generateJson(path):
     for sheet_ in data.sheet_names:
         sheet = str(sheet_)
         json[sheet] = {}
-        json[sheet] = generateJsonCols(data.parse(sheet))
+        # Drop empty rows and columns
+        sheetData = data.parse(sheet).dropna(how='all').dropna(how='all', axis=1)
+        # Drop NaN (nan) cell values
+        sheetData = sheetData.fillna('')
+        json[sheet] = generateJsonCols(sheetData)
     return json
-
 
 def generateJsonCols(data):
     """
@@ -32,10 +36,11 @@ def generateJsonCols(data):
         element = {}
         for col_ in data.columns:
             col = str(col_)
-            element[col] = str(data[col][row])
+            value = str(data[col][row])
+            if value != '':
+                element[col] = str(data[col][row])
         result.append(element)
     return result
-
 
 def organizeJson(data):
     """
@@ -179,7 +184,6 @@ def find_source(function_key, data, functions):
                     return(functions[function_key]['Source'])
 
 
-
 def reFormatPredicateObject(data):
     """
     Rearranges the json contained in 'data' for the Triple Object Maps, and returns it
@@ -187,6 +191,10 @@ def reFormatPredicateObject(data):
     result = {'Join':[], 'Function':[], 'POM':[]}
     nullValues =  {'', 'NaN', ' ', 'nan', 'NAN'}
     for element in data:
+        required_fields = ['Predicate', 'PredicateType', 'DataType', 'Object', 'InnerRef', 'OuterRef']
+        for field in required_fields:
+            if field not in element.keys():
+                element[field] = ''
         element['PredicateType'] = utils.predicateTypeIdentifier(element['Predicate'])
         element['PredTermMap'] = utils.replaceTermMap(element['PredicateType'])
         element['DataType'] = utils.dataTypeIdentifier(element['DataType'])
@@ -268,10 +276,9 @@ def reFormatSource(data):
         if ('Format' not in result.keys()):
             result['Format'] = result['SQLVersion']
 
-
-    result['ID'] = data[0]['ID']
+    if len(data) > 0 and 'ID' in data[0].keys():
+        result['ID'] = data[0]['ID']
     return result
-
 
 def generateMapping(inputFile, outputFile=None):
     """
@@ -291,14 +298,15 @@ def generateMapping(inputFile, outputFile=None):
 
     try:
         json = generateJson(inputFile)
-        #print("First JSON: ")
-        #print(str(json).replace('\'', '\"'))
         json = organizeJson(json)
-        print("Second JSON: ")
-        print(jsonw.dumps(json, indent=4))
+        #print("Second JSON: ")
+        #print(jsonw.dumps(json, indent=4))
         #print(str(json).replace('\'', '\"'))
         # sys.exit()
-    except KeyError:
+    except KeyError as e:
+        print(e)
+        print(traceback.format_exc())
+        print(sys.exc_info()[2])
         print("ERROR: The spreadsheet template is not correct. Check the sheet and column names are correct.")
         sys.exit()
 
